@@ -22,51 +22,87 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: #fff;
   color: var(--text-dark);
-  margin: 0;
-  padding: 0;
+  padding-top: 100px; /* Adjust for fixed header */
 }
 
 /* ========== HEADER & NAV ========== */
-@media (max-width: 768px) {
-  #hamburger {
-    display: block !important;
-  }
-
-  #nav ul {
-    flex-direction: column;
-    gap: 1rem;
-    background: white;
-    width: 100%;
-    padding: 1rem 0;
-  }
-}
-
-/* Fixed Header */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;       /* allows items to move on small screens */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow);
 }
 
-header h1 {
-  margin: 0;
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Logo/hamburger left, nav right */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between hamburger and logo */
+}
+
+.logo {
   font-size: 2rem;
+  margin: 0;
 }
 
+/* Hamburger */
+.hamburger {
+  display: none; /* Desktop hidden */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 29px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 5px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Navigation */
 header nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0 0;
   display: flex;
-  justify-content: center;
   gap: 2rem;
-  flex-wrap: wrap;
+  margin: 0.5rem 0 0 0;
+  padding: 0;
 }
 
 header nav a {
   text-decoration: none;
-  color: #333;
+  color: var(--primary-color);
   font-weight: bold;
   transition: color 0.3s;
 }
@@ -75,18 +111,33 @@ header nav a:hover {
   color: #007bff;
 }
 
-/* Body Padding */
-body {
-  padding-top: 100px; /* Adjust based on header height */
-  margin: 0;
-  scroll-behavior: smooth; /* Move from html if needed */
-}
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
 
-/* Smooth Scrolling for Whole Page */
-html {
-  scroll-behavior: smooth;
-}
+  header nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
 
+  header nav.active {
+    transform: translateX(0);
+  }
+
+  header nav ul {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
 
 /* ========== SECTIONS ========== */
 section {
@@ -110,6 +161,23 @@ section {
   margin-bottom: 1rem;
 }
 
+/* Mobile & tablet fix for hero section */
+@media (max-width: 1024px) {
+  #about.hero {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px; /* Push content below fixed header */
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  #about.hero img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
 .typing-container {
   font-family: monospace;
   font-size: 2rem;
@@ -122,7 +190,7 @@ section {
 
 @keyframes typing {
   from { width: 0 }
-  to { width: 16ch } /* Adjust as needed */
+  to { width: 16ch }
 }
 
 @keyframes blink {
@@ -130,21 +198,19 @@ section {
 }
 
 /* ========== PROJECTS ========== */
-/* Projects Section Styling (Narrower Cards, Constrained Width) */
 #projects {
-  padding: 4rem 1rem; /* Space from header/sections */
-  max-width: 900px; /* Constrains overall section width (adjust if needed) */
-  margin: 0 auto; /* Centers the section */
+  padding: 4rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .projects-grid {
   display: flex;
-  flex-wrap: wrap; /* Wraps after ~3 cards */
-  gap: 1rem; /* Tighter space between cards (reduced from 1.5rem) */
-  justify-content: space-around; /* Even spacing; centers 4th card */
-  align-items: flex-start; /* Aligns card tops */
-  padding: 1rem 0; /* Vertical padding */
-  width: 100%; /* Full width of constrained container */
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .project {
@@ -153,11 +219,11 @@ section {
   border-radius: 8px;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   padding: 1rem;
-  background-color: #f8f9fa; /* Light background */
-  flex: 0 1 calc(30% - 0.7rem); /* Narrower: ~30% width minus gap; allows wrapping after 3 */
-  min-width: 200px; /* Reduced min-width for compactness */
-  max-width: 250px; /* Reduced max-width to prevent stretching */
-  box-sizing: border-box; /* Includes padding in width */
+  background-color: #f8f9fa;
+  flex: 0 1 calc(30% - 0.7rem);
+  min-width: 200px;
+  max-width: 250px;
+  box-sizing: border-box;
 }
 
 .project img {
@@ -175,13 +241,12 @@ section {
 }
 
 .project p {
-  margin: 0.5rem 0 0 0; /* Compact description */
+  margin: 0.5rem 0 0 0;
   color: #666;
   line-height: 1.5;
-  font-size: 0.9rem; /* Slightly smaller text for less height/width */
+  font-size: 0.9rem;
 }
 
-/* Hover Effects */
 .project:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-5px);
@@ -195,55 +260,39 @@ section {
   color: #007bff;
 }
 
-/* Responsive: Even Narrower on Tablet/Mobile */
+/* Responsive adjustments */
 @media (max-width: 1024px) {
   #projects {
-    max-width: 700px; /* Tighter on tablets */
+    max-width: 700px;
   }
   
   .project {
-    flex: 0 1 calc(45% - 0.55rem); /* ~2 per row on tablets */
-    min-width: 180px; /* Smaller min */
+    flex: 0 1 calc(45% - 0.55rem);
+    min-width: 180px;
     max-width: 220px;
   }
 }
 
 @media (max-width: 768px) {
   #projects {
-    max-width: 100%; /* Full width on mobile but padded */
-    padding: 2rem 0.5rem; /* Less padding */
+    max-width: 100%;
+    padding: 2rem 0.5rem;
   }
   
   .projects-grid {
-    gap: 0.75rem; /* Even tighter gap */
+    gap: 0.75rem;
     justify-content: center;
   }
   
   .project {
-    flex: none; /* Full width when stacked */
+    flex: none;
     width: 100%;
-    max-width: 280px; /* Limits even on mobile */
-    min-width: auto;
-    padding: 0.75rem; /* Less internal padding */
+    max-width: 280px;
+    padding: 0.75rem;
   }
 }
 
-.download-cv {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.download-cv:hover {
-  background-color: #808080;
-}
-
 /* ========== CERTIFICATES ========== */
-/* Certificates Section Styling */
 .certificates-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -251,18 +300,18 @@ section {
 }
 
 .certificates-grid {
-  display: flex; /* Horizontal row by default */
-  flex-wrap: nowrap; /* No wrapping for initial 3 */
-  overflow-x: auto; /* Horizontal scroll if needed on small screens */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 1rem;
-  justify-content: flex-start; /* Left-align the row */
-  padding: 1rem 0; /* Vertical padding */
-  scrollbar-width: thin; /* Slim scrollbar on Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
+  justify-content: flex-start;
+  padding: 1rem 0;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
 }
 
 .certificates-grid::-webkit-scrollbar {
-  height: 6px; /* Thin horizontal scrollbar on Chrome/Safari */
+  height: 6px;
 }
 
 .certificates-grid::-webkit-scrollbar-track {
@@ -274,12 +323,11 @@ section {
   border-radius: 3px;
 }
 
-/* Expanded State: Switch to Grid for All Certificates */
 .certificates-grid.expanded {
-  flex-wrap: wrap; /* Allow wrapping to multiple rows */
-  overflow-x: visible; /* No scroll needed */
-  justify-content: center; /* Center the grid */
-  display: grid; /* Fallback to grid for better multi-row layout */
+  display: grid;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
@@ -289,10 +337,10 @@ section {
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex: 0 0 250px; /* Fixed width for horizontal cards; shrinks on mobile */
-  min-width: 200px; /* Minimum for readability */
+  flex: 0 0 250px;
+  min-width: 200px;
   max-width: 250px;
 }
 
@@ -310,18 +358,15 @@ section {
   font-weight: 500;
 }
 
-/* Hide Extra Certificates Initially */
 .certificate-item.hidden {
   display: none;
 }
 
-/* Hover Effect */
 .certificate-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Toggle Button Styling */
 .toggle-btn {
   display: block;
   margin: 2rem auto 0;
@@ -345,34 +390,6 @@ section {
   outline-offset: 2px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .certificates-grid {
-    gap: 0.75rem;
-    padding: 0.5rem;
-  }
-  
-  .certificate-item {
-    flex: 0 0 200px; /* Smaller cards on mobile */
-    min-width: 180px;
-  }
-  
-  .certificates-grid.expanded {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-  }
-  
-  .toggle-btn {
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .certificates-grid.expanded {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-}
 /* ========== CONTACT FORM ========== */
 .contact form {
   display: flex;
@@ -397,7 +414,7 @@ button {
   font-size: 1rem;
   cursor: pointer;
   border-radius: 4px;
-  transition:  0.3s ease;
+  transition: 0.3s ease;
 }
 
 button:hover {
@@ -441,6 +458,26 @@ footer {
   section {
     padding: 2rem 1rem;
   }
+
+  .certificates-grid {
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .certificate-item {
+    flex: 0 0 200px;
+    min-width: 180px;
+  }
+
+  .certificates-grid.expanded {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .toggle-btn {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -458,5 +495,11 @@ footer {
 
   button {
     font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .certificates-grid.expanded {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }

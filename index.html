@@ -8,32 +8,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
 
 </head>
-<body style="padding-top: 100px; margin: 0;">
+<body style="padding-top: 50px; margin: 0;">
 
- <header style="position: fixed; top: 0; left: 0; width: 100%; background-color: white; z-index: 1000; padding: 1rem 0; box-shadow: 0 2px 5px rgba(133, 43, 43, 0.1);">
-  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
-    
-    <h1 style="margin: 0; font-size: 1.7rem;">Joyce Zamora.</h1>
-
-    <!-- Hamburger Button -->
-    <button id="hamburger" style="display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1001;">
-      <span style="display: block; width: 25px; height: 3px; background: #333; margin: 5px 0;"></span>
-      <span style="display: block; width: 25px; height: 3px; background: #333; margin: 5px 0;"></span>
-      <span style="display: block; width: 25px; height: 3px; background: #333; margin: 5px 0;"></span>
-    </button>
+<header class="header">
+  <div class="header-container">
+    <!-- Hamburger + Logo -->
+    <div class="logo-container">
+      <button class="hamburger" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <h1 class="logo">Joyce Zamora.</h1>
+    </div>
 
     <!-- Navigation -->
-    <nav id="nav" style="flex: 1; text-align: right;">
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-        <li><a href="#about" style="text-decoration: none; color: #333; font-weight: bold;">About</a></li>
-        <li><a href="#projects" style="text-decoration: none; color: #333; font-weight: bold;">Projects</a></li>
-        <li><a href="#certificates" style="text-decoration: none; color: #333; font-weight: bold;">Certificates</a></li>
-        <li><a href="#contact" style="text-decoration: none; color: #333; font-weight: bold;">Contact</a></li>
+    <nav class="nav">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-
   </div>
 </header>
+
 
 
   <section id="about" class="hero" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2rem;">
@@ -233,31 +233,15 @@
 
   <!-- JavaScript for Hamburger Menu Toggle -->
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('header nav');
 
-    hamburger.addEventListener('click', () => {
-      nav.classList.toggle('active');
-      hamburger.classList.toggle('active'); // Optional: Animate hamburger to X
-    });
+  hamburger.addEventListener('click', () => {
+    nav.classList.toggle('active');
+    hamburger.classList.toggle('open'); // Optional: animate hamburger
+  });
+</script>
 
-    // Close menu when a link is clicked (mobile UX)
-    const navLinks = nav.querySelectorAll('a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        hamburger.classList.remove('active');
-      });
-    });
-
-    // Optional: Close menu on window resize (if switching to desktop)
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
-        nav.classList.remove('active');
-        hamburger.classList.remove('active');
-      }
-    });
-  </script>
 
 </body>
 </html>
